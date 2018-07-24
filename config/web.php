@@ -26,12 +26,13 @@ $config = [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+        'formatter' => [
+            'class' => 'yii\i18n\Formatter',
+            'dateFormat' => 'Y/MM/dd',
+            'datetimeFormat' => 'Y/MM/dd H:i:s',
+        ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
-            // send all mails to a file by default. You have to set
-            // 'useFileTransport' to false and configure a transport
-            // for the mailer to send real emails.
-            'useFileTransport' => true,
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -43,14 +44,21 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
         'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-            ],
+             'enablePrettyUrl' => true,
+             'showScriptName' => false,
+             'rules' => [
+                 ''     => '/account/session/index',
+                 '/<action:(register|dashboard|logout)>' => '/account/session/<action>'
+             ]
         ],
-        */
+
+    ],
+    // Modules
+    'modules' => [
+        'account' => [
+            'class' => 'app\modules\account\module',
+        ]
     ],
     'params' => $params,
 ];
@@ -68,7 +76,7 @@ if (YII_ENV_DEV) {
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
-        //'allowedIPs' => ['127.0.0.1', '::1'],
+        'allowedIPs' => ['127.0.0.1', '::1', '*'],
     ];
 }
 

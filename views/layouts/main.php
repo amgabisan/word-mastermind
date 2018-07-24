@@ -1,23 +1,20 @@
 <?php
+    use yii\helpers\Html;
+    use yii\bootstrap\Nav;
+    use yii\bootstrap\NavBar;
+    use yii\helpers\BaseUrl;
+    use yii\helpers\Url;
 
-/* @var $this \yii\web\View */
-/* @var $content string */
+    use app\assets\AppAsset;
 
-use app\widgets\Alert;
-use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
-use app\assets\AppAsset;
-
-AppAsset::register($this);
+    AppAsset::register($this);
 ?>
+
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
@@ -25,55 +22,81 @@ AppAsset::register($this);
 </head>
 <body>
 <?php $this->beginBody() ?>
+    <div class="common-wrapper">
+        <header>
+            <nav class="navbar-inverse">
+              <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand" href="/">
+                    <img alt="deltapath" src='http://www.deltapath.com/wp-content/uploads/Deltapath-logo1.svg' class="img-responsive">
+                  </a>
+                </div>
 
-<div class="wrap">
-    <?php
-    NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link logout']
-                )
-                . Html::endForm()
-                . '</li>'
-            )
-        ],
-    ]);
-    NavBar::end();
-    ?>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <?php if (!Yii::$app->user->isGuest) {
+                        $name = Yii::$app->user->identity->first_name;
+                        $nav = [
+                            'options' => ['class' => 'nav navbar-nav navbar-right'],
+                            'activateParents' => 'true',
+                            'route' => empty(Yii::$app->controller->route_nav) ? Yii::$app->request->pathInfo : Yii::$app->controller->route_nav,
+                            'items' => [
+                                [
+                                    'label'    => Yii::t('app', 'Dashboard'),
+                                    'url'      => [Yii::$app->request->baseUrl.'/dashboard']
+							    ],
+                                //$items[$identity->user_type],
+                                [
+                                    'label'        => $name,
+                                    'options'      => ['class'=>'dropdown'],
+                                    'linkOptions'  => [
+                                        'class'    => 'dropdown-toggle',
+                                        'data-toggle' => 'dropdown'
+                                    ],
+                                    'items'		   => [
+                                        [
+                                            'label' => Yii::t('app', 'Logout'),
+                                            'url'   => [Yii::$app->request->baseUrl.'/logout']
+                                        ],
+                                    ]
+                                ]
+                            ]
+                        ];
 
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
+                        echo Nav::widget($nav);
+                     } else {
+                        echo Nav::widget([
+                            'options' => ['class' => 'nav navbar-nav navbar-right'],
+                            'items' => [
+                                [
+                                    'label'    => Yii::t('app', 'Login'),
+                                    'url'      => [Yii::$app->request->baseUrl.'/login'],
+                                    'options'=> ['class'=>'active']
+                                ]
+                            ]
+                        ]);
+                    } ?>
+                </div><!-- /.navbar-collapse -->
+              </div><!-- /.container-fluid -->
+            </nav>
+        </header>
+        <div class="container common-container">
+            <?= $content ?>
+        </div>
     </div>
-</div>
 
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
-    </div>
-</footer>
+    <footer class="common-footer">
+      <div id="footer" class="center-block text-center">
+        Copyright &copy; <?= date('Y'); ?> AMG. All rights reserved
+      </div>
+    </footer>
 
 <?php $this->endBody() ?>
 </body>

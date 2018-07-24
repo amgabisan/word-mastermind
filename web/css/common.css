@@ -1,0 +1,102 @@
+* {
+  margin: 0;
+}
+html, body {
+  height: 100%;
+}
+.common-wrapper {
+  min-height: 100%;
+  /* equal to footer height */
+  margin-bottom: -50px;
+}
+
+.common-container {
+    padding-top: 2%;
+}
+
+#forLogin {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #222 !important;
+}
+
+.common-wrapper:after {
+  content: "";
+  display: block;
+}
+.common-footer, .common-wrapper:after {
+  height: 50px;
+}
+.common-footer {
+  background: #222;
+  color: white;
+}
+
+.common-footer #footer {
+    line-height: 50px;
+}
+
+/** Login Page **/
+#login-wrapper {
+    margin: -50px auto 0;
+    min-height: 80px;
+    width: 300px;
+}
+
+.common-wrapper #logo {
+    margin: 0 auto;
+    width: 280px;
+}
+
+.common-wrapper #logo > img {
+    width: 280px;
+}
+
+#login-wrapper #content {
+    min-height: 100px;
+    margin-top: 10px;
+}
+
+/** Navigation **/
+header {
+    border-bottom: 1px solid #DEDEDE !important;
+}
+.navbar-brand {
+    padding-top: 0px !important;
+    height: 60px;
+}
+.navbar-nav > li > a {
+    height: 60px;
+    line-height: 30px;
+}
+.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > .active > a:focus {
+    background: none;
+    font-weight: bold;
+}
+.navbar {
+/*    min-height: 90px;*/
+    margin-bottom: 10px;
+    border-radius: 0px;
+}
+.navbar-collapse {
+/*    margin-top: 2%;*/
+}
+nav .container {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+/* Dashboard */
+#iconsContainer {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 5%;
+}
+
+#iconsContainer li {
+    margin-bottom: 10%;
+}
+
+
+
