@@ -17,8 +17,10 @@
                 <span>Top Ranking Board</span>
             </li>
             <li>
-                <i class="fas fa-sign-out-alt fa-10x text-danger"></i><br>
-                <span>Logout</span>
+                <a href = "/logout">
+                    <i class="fas fa-sign-out-alt fa-10x text-danger"></i><br>
+                    <span>Logout</span>
+                </a>
             </li>
         </ul>
     </div>

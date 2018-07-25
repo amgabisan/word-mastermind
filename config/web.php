@@ -58,6 +58,9 @@ $config = [
     'modules' => [
         'account' => [
             'class' => 'app\modules\account\module',
+        ],
+        'mastermind' => [
+            'class' => 'app\modules\mastermind\module',
         ]
     ],
     'params' => $params,
