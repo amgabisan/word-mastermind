@@ -1,6 +1,6 @@
 * {
     margin: 0;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Open Sans Condensed',sans-serif;
 }
 html, body {
   height: 100%;
@@ -127,7 +127,12 @@ nav .container {
     margin-bottom: 5%;
 }
 
-
+/* Game Page */
+#timerContainer {
+    zoom: 0.6;
+    margin: 30px auto;
+    width: 50%;
+}
 
 
 

@@ -21,10 +21,12 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/common.css',
-        //'css/site.css',
-        'https://use.fontawesome.com/releases/v5.1.1/css/all.css'
+        'https://use.fontawesome.com/releases/v5.1.1/css/all.css',
+        'plugins/flipclock/css/flipclock.css'
     ];
     public $js = [
+        'plugins/flipclock/js/flipclock.min.js',
+        'js/mastermind.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',
