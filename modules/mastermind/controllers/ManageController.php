@@ -79,9 +79,7 @@ class ManageController extends Controller
             'attempt' => []
         ];
         $session->close();
-        
-        echo $randomWord;
-        
+
         return true;
     }
     
@@ -97,7 +95,6 @@ class ManageController extends Controller
             $session->open();
             
             $mastermindSession = $session['mastermind'];
-            
             if (in_array($word, $this->getData())) {            
                 $mastermindSession['turns'] = $mastermindSession['turns'] - 1;
                 $mastermindSession['moves'] = $mastermindSession['moves'] + 1;
@@ -149,6 +146,17 @@ class ManageController extends Controller
                                             } else {
                                                 $arr[$value]['letter'] = $word[$value];
                                                 $arr[$value]['result'] = 0;
+                                            }
+                                        }
+                                    }
+
+                                    if (empty($commonIndexes) && !empty($diffIndexes)) {
+                                        $count = count($letterDuplicateRandomWord);
+                                        $j = 0;
+                                        foreach ($diffIndexes as $value) {
+                                            if ($count != $j) {
+                                                $arr[$value]['result'] = 2;
+                                                $j++;
                                             }
                                         }
                                     }
