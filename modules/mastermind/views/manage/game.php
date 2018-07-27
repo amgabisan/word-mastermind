@@ -11,7 +11,7 @@
     Word MasterMind
 </h1>
 
-<div class="container">
+<div class="container" id="gameplay">
     <div class="col-md-8 col-md-offset-2 col-sm-12" id="playMenuContainer">
         <!-- Game Information -->
         <div class="col-md-6 col-sm-12 text-center">
@@ -29,7 +29,7 @@
         
         <div id="failedContainer">
             <div class="alert alert-danger" role="alert">You failed to guess the correct word. The word is <strong><span id="correctWord"></span></strong>.
-                <ul class="list-inline">
+                <ul class="list-inline text-center">
                     <li><a href='/mastermind/manage/game' class="btn btn-primary">Play again</a></li>
                     <li><a href='/' class="btn btn-danger">Back to Main Menu</a></li>
                 </ul>
@@ -38,7 +38,7 @@
         
          <div id="successContainer">
             <div class="alert alert-success" role="alert"><strong>Congratulations!</strong> You guess the correct word.
-                <ul class="list-inline">
+                <ul class="list-inline text-center">
                     <li><a href='/mastermind/manage/game' class="btn btn-primary">Play again</a></li>
                     <li><a href='/' class="btn btn-danger">Back to Main Menu</a></li>
                 </ul>
@@ -52,7 +52,7 @@
         ]); ?>
             <p id="errorMsg" class="text-danger"></p>
             <div class="col-md-7" id="attempts">
-                <input class="form-control" placeholder="Input Five Letter Guess Word" type='text' id='guessWord' value='' maxlength='5'  />
+                <input class="form-control" placeholder="Input Five Letter Guess Word" type='text' id='guessWord' value='' maxlength='5' onkeypress="if (event.keyCode==13) { event.preventDefault(); return false;}"  />
             </div>
             <div class="col-md-5 text-center">
                 <input class="btn btn-success" type='button'  id="guessBtn" value='Guess Word' />

@@ -73,31 +73,60 @@ class Ranks extends \yii\db\ActiveRecord
     }
 
     /**
-    * This function retrieves data according to parameter type in ranks table.
+    * This function retrieves data of the achievements of the logged in person
     *
-    *   @param    string $type = "personal" | "world" type.
-    *   @param    obj    $user
+    *   @param    int $id (id of the logged in )
     */
-    public function getAllList($type, $user)
+    public function getPersonalRanks($id)
     {
-        $userId = $user->id;
-        $queryParams = [':userId' => $userId];
-        $queryCondition = "";
-        if ($type == 'personal') {
-            $queryCondition .= 'r.user_id = :userId';
-        }
-
         $query = new Query();
-        $query->params($queryParams);
-        $query->select('u.id, u.last_name, r.time, r.no_of_moves')
-              ->from('ranks r')
-              ->leftJoin('user u', 'r.user_id = u.id')
-              ->where($queryCondition)
-              ->limit(10)
-              ->orderBy('time asc');
+        $query->params([':id' => $id]);
+        $query->select('*')
+              ->from('ranks')
+              ->where('user_id=:id')
+              ->orderBy(['time' => 'ASC', 'no_of_moves' => 'ASC'])
+              ->limit(10);
 
         $command = $query->createCommand(Yii::$app->db);
         $rows = $command->queryAll();
-        return (!empty($rows)) ? $rows : [];
+
+        return $rows;
+    }
+
+    /**
+    * This function retrieves data of the achievements of the overall users of the application
+    *
+    *   idSubquery - gets the id which determines the least time and moves consumed by the user
+    *   timesSubquery and moveSubquery - refers to the return in idSubquery and retrieve the associated data in it
+    */
+    public function getGlobalRanks()
+    {
+        $idSubquery = new Query();
+        $idSubquery->select('id')->from('ranks r2')->where('r2.user_id=r.user_id')->orderBy(['r2.time' => 'ASC', 'r2.no_of_moves' => 'ASC'])->limit(1);
+
+        $timeSubquery = new Query();
+        $timeSubquery->select('time')->from('ranks r3')->where('r3.id = row_id');
+
+        $moveSubquery = new Query();
+        $moveSubquery->select('no_of_moves')->from('ranks r4')->where('r4.id = row_id');
+
+        $query = new Query();
+        $query->select([
+                'u.id',
+                'name' => 'concat(u.first_name, " ", u.last_name)',
+                'row_id' => '('.$idSubquery->createCommand()->rawSql.')',
+                'time_consumed' => '('.$timeSubquery->createCommand()->rawSql.')',
+                'move_made' => '('.$moveSubquery->createCommand()->rawSql.')'
+            ])
+            ->from('user u')
+            ->innerJoin('ranks r', 'u.id=r.user_id')
+            ->groupBy('u.id')
+            ->orderBy(['time_consumed' => 'ASC', 'move_made' => 'ASC'])
+            ->limit(10);
+
+        $command = $query->createCommand(Yii::$app->db);
+        $rows = $command->queryAll();
+
+        return $rows;
     }
 }

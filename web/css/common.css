@@ -117,6 +117,7 @@ nav .container {
     color: #4C4C4C;
     font-size: 1.2em;
     line-height: 1.5;
+    margin-bottom: 10px;
 }
 #playMenuContainer > ul > li > ul > li {
     margin-bottom: 5px;
@@ -132,6 +133,18 @@ nav .container {
     zoom: 0.6;
     margin: 30px auto;
     width: 50%;
+}
+
+#globalRankingContainer table.table-bordered > tbody > tr > td {
+    word-break: break-all;
+}
+
+/* Responsive */
+@media only screen and (max-width: 991px) {
+    #playMenuContainer .btn {
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
 }
 
 

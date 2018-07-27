@@ -56,21 +56,18 @@ class ManageController extends Controller
         ];
     }
 
-    /**
-    * This function renders the rank page.
-    *
-    * @param $type = "personal" | "world" type;
-    *
-    */
-    public function actionIndex($type)
+    public function actionIndex()
     {
         $user = Yii::$app->user->identity;
         $rankModel = new Ranks;
-        $rankList = $rankModel->getAllList($type, $user);
+
+        $personalRank = $rankModel->getPersonalRanks($user->id);
+        $globalRank = $rankModel->getGlobalRanks();
 
         return $this->render('index',[
-            'rankLists' => $rankList,
-            'type'      => $type
+            'personal'  => $personalRank,
+            'global'    => $globalRank,
+            'id'        => $user->id
         ]);
     }
 }

@@ -20,7 +20,7 @@ class ManageController extends Controller
             'access' => [
                 'class' => AccessControl::className(),
                 // Pages that are included in the rule set
-                'only'  => ['index'],
+                'only'  => ['index', 'game', 'check', 'play'],
                 'rules' => [
                     [ // Pages that can be accessed when logged in
                         'allow'     => true,
@@ -80,14 +80,13 @@ class ManageController extends Controller
     {
         $randomWord = $this->getRandomWord();
 
-        // Save the word to be guess in session
         $session = Yii::$app->session;
         $session->open();
         $session['mastermind'] = [
-            'word'  => $randomWord,
-            'turns' => 10,
-            'moves' => 0,
-            'attempt' => []
+            'word'  => $randomWord, // Word to be guess
+            'turns' => 10,          // Number of turns allowed
+            'moves' => 0,           // Number of moves made
+            'attempt' => []         // History of guesses made by the user
         ];
         $session->close();
 
@@ -116,6 +115,7 @@ class ManageController extends Controller
 
             if (Yii::$app->request->post('giveUp')) {
                 $correctWord = $session['mastermind']['word'];
+                unset($session['mastermind']);
                 $session->close();
                 return json_encode($correctWord);
             }
@@ -128,6 +128,7 @@ class ManageController extends Controller
                     $mastermindSession['result'] = 'correct';
                     $attempt[$guessWord] = true;
                     
+                    // Save data in the database
                     $rankModel = new Ranks;
                     $rankModel->saveRanks($mastermindSession, gmdate("H:i:s", $timeSpent - 1), $user);
                 } else {
@@ -137,31 +138,33 @@ class ManageController extends Controller
                     $arr = [];
 
                     for ($i = 0; $i < count($word); $i++) {
-                        if (!array_key_exists($i, $arr)) {
+                        if (!array_key_exists($i, $arr)) { // If letter is not yet in the array so that the letter won't be overridden
                             $arr[$i]['letter'] = $word[$i];
-                            if ($randomWord[$i] == $word[$i]) {
+                            if ($randomWord[$i] == $word[$i]) { // if currrent letter in the word is equal to the current letter in the guess word
                                 $arr[$i]['result'] = 1;
-                            } else if (in_array($word[$i], $randomWord)) {
+                            } else if (in_array($word[$i], $randomWord)) { // if letter in the guess word is present in the word
                                 $letterDuplicateRandomWord  = $this->getLetterDuplicates($word[$i], $randomWord); 
                                 $letterDuplicateWord = $this->getLetterDuplicates($word[$i], $word); 
 
-                                if (count($letterDuplicateRandomWord) < count($letterDuplicateWord)) { 
-                                    $commonIndexes = array_intersect($letterDuplicateRandomWord, $letterDuplicateWord); 
+                                // If duplicates / repeatable letters in the guess word is more than the duplicates in the word (to be guess)
+                                if (count($letterDuplicateRandomWord) < count($letterDuplicateWord)) {
+                                    $commonIndexes = array_intersect($letterDuplicateRandomWord, $letterDuplicateWord); // get the common indexes of the duplicates which is considered correct letter in correct position
 
                                     if (!empty($commonIndexes)) {
                                         foreach ($commonIndexes as $value) {
+                                            // If the index is already present in the array, value will be overriden
                                             if (array_key_exists($value, $arr)) {
                                                 $arr[$value]['result'] = 1;
-                                            } else if ($value == $i) {
+                                            } else if ($value == $i) { // if the index is the same as the current index in the loop
                                                 $arr[$i]['result'] = 1;
-                                            } else {
+                                            } else { // if the index does not yet exist
                                                 $arr[$value]['letter'] = $word[$value];
                                                 $arr[$value]['result'] = 1;
                                             }
                                         }
                                     }
 
-                                    $diffIndexes = array_diff($letterDuplicateWord, $letterDuplicateRandomWord); 
+                                    $diffIndexes = array_diff($letterDuplicateWord, $letterDuplicateRandomWord); // get the different indexes of the guess word to the word to be guess
 
                                     if (!empty($diffIndexes)) {
                                         foreach ($diffIndexes as $value) {
@@ -176,6 +179,13 @@ class ManageController extends Controller
                                         }
                                     }
 
+                                    /* if there is no common but there are differences
+                                     * Word to be guess: Ravel [1]
+                                     * Guess word: Abaca [0,2,4]
+                                     * Current Letter evaluated: A
+                                     * Assign the other letters with correct letter but not in the right position, if it reach the number of
+                                     * duplicates in the word to be guess, others will stay as incorrect letter
+                                    */
                                     if (empty($commonIndexes) && !empty($diffIndexes)) {
                                         $count = count($letterDuplicateRandomWord);
                                         $j = 0;
@@ -203,6 +213,12 @@ class ManageController extends Controller
                 $attempt[$guessWord] = false; 
             }
             
+            // If the guess word has already been guessed and the result is not invalid. Add value to turns and remove one to moves
+            if (array_key_exists($guessWord, $mastermindSession['attempt']) && $mastermindSession['result'] != 'invalid') {
+                $mastermindSession['turns'] = $mastermindSession['turns'] + 1;
+                $mastermindSession['moves'] = $mastermindSession['moves'] - 1;
+            }
+
             $mastermindSession['attempt'] = $mastermindSession['attempt'] + $attempt;
             $session['mastermind'] = $mastermindSession;
             $result = $mastermindSession;

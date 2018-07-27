@@ -52,14 +52,6 @@ $config = [
                 => '/account/session/index',
                 '/<action:(register|dashboard|logout)>'
                 => '/account/session/<action>',
-                [
-                        'pattern'
-                        => '/<module:ranking>/<controller:manage>/<action:index>/<type:(personal|world)>',
-                        'route'
-                        => '/<module>/<controller>/<action>',
-                        'defaults'
-                        => ['type' => 'personal'],
-                ],
              ]
         ],
 

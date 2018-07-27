@@ -138,5 +138,11 @@ $(document).ready(function() {
         });
     });
 
+    window.onbeforeunload = function (e){
+        if ($('#gameplay').length != 0) {
+            return confirm('Are you sure you want to leave the page?');
+        }
+    };
+
 });
 
