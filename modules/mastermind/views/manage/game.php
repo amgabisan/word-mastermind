@@ -1,5 +1,8 @@
 <?php
     use yii\bootstrap\ActiveForm;
+    use app\assets\AlertAsset;
+
+    AlertAsset::register($this);
     $this->title = 'Word MasterMind';
 ?>
 
@@ -25,11 +28,21 @@
         <div class="clearfix"></div>
         
         <div id="failedContainer">
-            <div class="alert alert-danger" role="alert">You failed to guess the correct word. The word is <strong><span id="correctWord"></span></strong>. <a href='/mastermind/manage/game'>Play again?</a></div>
+            <div class="alert alert-danger" role="alert">You failed to guess the correct word. The word is <strong><span id="correctWord"></span></strong>.
+                <ul class="list-inline">
+                    <li><a href='/mastermind/manage/game' class="btn btn-primary">Play again</a></li>
+                    <li><a href='/' class="btn btn-danger">Back to Main Menu</a></li>
+                </ul>
+            </div>
         </div>
         
          <div id="successContainer">
-            <div class="alert alert-success" role="alert"><strong>Congratulations!</strong> You guess the correct word.<a href='/mastermind/manage/game'>Play again?</a></div>
+            <div class="alert alert-success" role="alert"><strong>Congratulations!</strong> You guess the correct word.
+                <ul class="list-inline">
+                    <li><a href='/mastermind/manage/game' class="btn btn-primary">Play again</a></li>
+                    <li><a href='/' class="btn btn-danger">Back to Main Menu</a></li>
+                </ul>
+             </div>
         </div>
         
         <!-- Game Form -->

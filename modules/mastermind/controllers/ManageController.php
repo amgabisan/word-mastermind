@@ -5,6 +5,7 @@ namespace app\modules\mastermind\controllers;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
+use app\models\Ranks;
 
 class ManageController extends Controller
 {
@@ -68,7 +69,7 @@ class ManageController extends Controller
     public function actionPlay()
     {
         $randomWord = $this->getRandomWord();
-        
+
         // Save the word to be guess in session
         $session = Yii::$app->session;
         $session->open();
@@ -88,22 +89,32 @@ class ManageController extends Controller
         if (Yii::$app->request->isPost) {
             $result = [];
             
+            $user = Yii::$app->user->identity;
+
             $word = $guessWord = Yii::$app->request->post('word');
             $timeSpent = Yii::$app->request->post('timeSpent');
-            
+
             $session = Yii::$app->session;
             $session->open();
             
             $mastermindSession = $session['mastermind'];
+
+            if (Yii::$app->request->post('giveUp')) {
+                $correctWord = $session['mastermind']['word'];
+                $session->close();
+                return json_encode($correctWord);
+            }
+
             if (in_array($word, $this->getData())) {            
                 $mastermindSession['turns'] = $mastermindSession['turns'] - 1;
                 $mastermindSession['moves'] = $mastermindSession['moves'] + 1;
 
                 if (strtolower($session['mastermind']['word']) === strtolower($word)) { // Guess is correct
                     $mastermindSession['result'] = 'correct';
-                    $attempt[$guessWord] = true; 
+                    $attempt[$guessWord] = true;
                     
-                    // Save data in the database for top ranking board
+                    $rankModel = new Ranks;
+                    $rankModel->saveRanks($mastermindSession, gmdate("H:i:s", $timeSpent - 1), $user);
                 } else {
                     $randomWord = str_split($session['mastermind']['word']);
                     $word = str_split($word);

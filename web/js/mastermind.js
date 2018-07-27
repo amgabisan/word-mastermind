@@ -111,7 +111,32 @@ $(document).ready(function() {
     
     });
     
-    $('#quitBtn').click(function() {});
-    
+    $('#quitBtn').click(function() {
+        swal({
+          title: 'Are you sure you want to give up?',
+          text: "You won't be able to revert this!",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, I Give up!',
+          cancelButtonText: 'No, Cancel!',
+          reverseButtons: true
+        }).then((result) => {
+          if (result) {
+              $.ajax({
+                type: 'POST',
+                data: {"giveUp" : "true"},
+                url: '/mastermind/manage/check',
+                success: function (data) {
+                    $('#failedContainer').show();
+                    $('#correctWord').text(data);
+                    clock.stop();
+                    $('#guessWord').prop('disabled', true); // Disable input field
+                    $('.btn').prop('disabled', true); // Disable buttons
+                },
+            });
+          }
+        });
+    });
+
 });
 
