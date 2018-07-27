@@ -126,6 +126,11 @@ class User extends ActiveRecord implements IdentityInterface
         return Yii::$app->getSecurity()->validatePassword($password, $hash_password);
     }
 
+    /**
+    * This function saves data to user table.
+    *
+    *   @param    obj    $account
+    */
     public function saveUser($account)
     {
         $model = new User;

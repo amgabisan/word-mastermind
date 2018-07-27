@@ -61,11 +61,21 @@ class ManageController extends Controller
         return $this->render('index');
     }
 
+    /**
+    * This function renders the game page of mastermind.
+    *
+    */
     public function actionGame()
     {
         return $this->render('game');
     }
     
+    /**
+    * This function is where the server generates
+    * all the session that will be used during the game.
+    *
+    * returns true after generating the session.
+    */
     public function actionPlay()
     {
         $randomWord = $this->getRandomWord();
@@ -84,6 +94,11 @@ class ManageController extends Controller
         return true;
     }
     
+    /**
+    * This function gets all post event by clicking "Guess word" on the game page.
+    *
+    * returns json_encode(data)
+    */
     public function actionCheck()
     {
         if (Yii::$app->request->isPost) {
@@ -216,6 +231,11 @@ class ManageController extends Controller
         return $arr;
     }
     
+    /**
+    * This function gets a random word from the dictionary that contains only 5 letters.
+    *
+    * returns $randOutput
+    */
     private function getRandomWord()
     {
         $words = $this->getData();
@@ -224,6 +244,11 @@ class ManageController extends Controller
         return $randOutput;
     }
     
+    /**
+    * This function gets all the data from the dictionary that contains 5 letters.
+    *
+    * returns $outputArr
+    */
     private function getData()
     {
         $file = Yii::$app->basePath . '/web/resources/files/dictionary.txt';

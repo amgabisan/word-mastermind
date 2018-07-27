@@ -56,6 +56,12 @@ class ManageController extends Controller
         ];
     }
 
+    /**
+    * This function renders the rank page.
+    *
+    * @param $type = "personal" | "world" type;
+    *
+    */
     public function actionIndex($type)
     {
         $user = Yii::$app->user->identity;

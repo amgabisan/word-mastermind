@@ -50,6 +50,13 @@ class Ranks extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+    * This function saves data to ranks table.
+    *
+    *   @param    array  $rankData
+    *   @param    string $time
+    *   @param    obj    $user
+    */
     public function saveRanks($rankData, $time, $user)
     {
         $model = new Ranks;
@@ -65,6 +72,12 @@ class Ranks extends \yii\db\ActiveRecord
         return false;
     }
 
+    /**
+    * This function retrieves data according to parameter type in ranks table.
+    *
+    *   @param    string $type = "personal" | "world" type.
+    *   @param    obj    $user
+    */
     public function getAllList($type, $user)
     {
         $userId = $user->id;
