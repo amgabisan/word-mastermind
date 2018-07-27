@@ -43,7 +43,6 @@ YII2 DIRECTORY STRUCTURE
 REQUIREMENTS
 ------------
       Web Server (Nginx or Apache)
-      Sendmail Service
       PHP <= 5.4.0
       GIT
       MySQL
@@ -106,22 +105,12 @@ mysql -u root -p deltapath < database.sql
 Edit the file `config/db.php` with real data, for example:
 
 ```php
-$databases = [
-    'db'  => 'deltapath',
-];
-
-$dbConfig = [
+return [
     'class' => 'yii\db\Connection',
-    'dsn' => '',
+    'dsn' => 'mysql:host=localhost;dbname=deltapath',
     'username' => 'root',
     'password' => 'dimensions',
     'charset' => 'utf8',
-    'enableSchemaCache' => true,
-    'schemaCacheDuration' => 3600,
-    'schemaCache' => 'cache',
-    'attributes' => [
-        PDO::MYSQL_ATTR_LOCAL_INFILE => true
-    ]
 ];
 ```
 
