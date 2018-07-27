@@ -24,7 +24,7 @@ class ManageController extends Controller
                 'rules' => [
                     [ // Pages that can be accessed when logged in
                         'allow'     => true,
-                        'actions'   => [ 'index', 'game'],
+                        'actions'   => [ 'index', 'game', 'play', 'check'],
                         'roles'     => ['@']
                     ],
                 ],

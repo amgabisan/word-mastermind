@@ -15,8 +15,10 @@
                 </a>
             </li>
             <li>
-                <i class="fas fa-trophy fa-10x text-success"></i><br>
-                <span>Top Ranking Board</span>
+                <a href="/ranking/manage/index">
+                    <i class="fas fa-trophy fa-10x text-success"></i><br>
+                    <span>Top Ranking Board</span>
+                </a>
             </li>
             <li>
                 <a href = "/logout">

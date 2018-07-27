@@ -48,8 +48,18 @@ $config = [
              'enablePrettyUrl' => true,
              'showScriptName' => false,
              'rules' => [
-                 ''     => '/account/session/index',
-                 '/<action:(register|dashboard|logout)>' => '/account/session/<action>'
+                ''
+                => '/account/session/index',
+                '/<action:(register|dashboard|logout)>'
+                => '/account/session/<action>',
+                [
+                        'pattern'
+                        => '/<module:ranking>/<controller:manage>/<action:index>/<type:(personal|world)>',
+                        'route'
+                        => '/<module>/<controller>/<action>',
+                        'defaults'
+                        => ['type' => 'personal'],
+                ],
              ]
         ],
 
@@ -61,6 +71,9 @@ $config = [
         ],
         'mastermind' => [
             'class' => 'app\modules\mastermind\module',
+        ],
+        'ranking' => [
+            'class' => 'app\modules\ranking\module',
         ]
     ],
     'params' => $params,

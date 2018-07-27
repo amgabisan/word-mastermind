@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\db\Query;
 
 /**
  * This is the model class for table "ranks".
@@ -62,5 +63,28 @@ class Ranks extends \yii\db\ActiveRecord
         }
 
         return false;
+    }
+
+    public function getAllList($type, $user)
+    {
+        $userId = $user->id;
+        $queryParams = [':userId' => $userId];
+        $queryCondition = "";
+        if ($type == 'personal') {
+            $queryCondition .= 'r.user_id = :userId';
+        }
+
+        $query = new Query();
+        $query->params($queryParams);
+        $query->select('u.id, u.last_name, r.time, r.no_of_moves')
+              ->from('ranks r')
+              ->leftJoin('user u', 'r.user_id = u.id')
+              ->where($queryCondition)
+              ->limit(10)
+              ->orderBy('time asc');
+
+        $command = $query->createCommand(Yii::$app->db);
+        $rows = $command->queryAll();
+        return (!empty($rows)) ? $rows : [];
     }
 }
