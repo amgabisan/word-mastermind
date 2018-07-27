@@ -43,7 +43,6 @@ YII2 DIRECTORY STRUCTURE
 REQUIREMENTS
 ------------
       Web Server (Nginx or Apache)
-      Sendmail Service
       PHP <= 5.4.0
       GIT
       MySQL
