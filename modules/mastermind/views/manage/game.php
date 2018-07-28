@@ -20,14 +20,14 @@
         <div class="col-md-6 col-sm-12 text-center">
             Number of Moves Made: <span id="numberOfMoves">0</span>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-7 col-md-offset-5">
             <div id="timerContainer"></div>
         </div>
         
         <hr />
         <div class="clearfix"></div>
         
-        <div id="failedContainer">
+        <div id="failedContainer" class="resultContainer">
             <div class="alert alert-danger" role="alert">You failed to guess the correct word. The word is <strong><span id="correctWord"></span></strong>.
                 <ul class="list-inline text-center">
                     <li><a href='/mastermind/manage/game' class="btn btn-primary">Play again</a></li>
@@ -36,7 +36,7 @@
             </div>
         </div>
         
-         <div id="successContainer">
+         <div id="successContainer" class="resultContainer">
             <div class="alert alert-success" role="alert"><strong>Congratulations!</strong> You guess the correct word.
                 <ul class="list-inline text-center">
                     <li><a href='/mastermind/manage/game' class="btn btn-primary">Play again</a></li>

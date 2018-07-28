@@ -44,6 +44,7 @@ $(document).ready(function() {
                         clock.stop();
                         $('#guessWord').prop('disabled', true); // Disable input field
                         $('.btn').prop('disabled', true); // Disable buttons
+                        $('.resultContainer .btn').prop('disabled', false);
                     } 
                 
                     if (data.turns == 0 && data.result != 'correct') {
@@ -52,6 +53,7 @@ $(document).ready(function() {
                         clock.stop();
                         $('#guessWord').prop('disabled', true); // Disable input field
                         $('.btn').prop('disabled', true); // Disable buttons
+                        $('.resultContainer .btn').prop('disabled', false);
                     }
                 
                     if (data.attempt.length != 0) {
@@ -120,7 +122,8 @@ $(document).ready(function() {
           confirmButtonText: 'Yes, I Give up!',
           cancelButtonText: 'No, Cancel!',
           reverseButtons: true
-        }).then((result) => {
+        }).then(function (result) {
+            console.log(result);
           if (result) {
               $.ajax({
                 type: 'POST',
@@ -132,6 +135,7 @@ $(document).ready(function() {
                     clock.stop();
                     $('#guessWord').prop('disabled', true); // Disable input field
                     $('.btn').prop('disabled', true); // Disable buttons
+                    $('.resultContainer .btn').prop('disabled', false);
                 },
             });
           }

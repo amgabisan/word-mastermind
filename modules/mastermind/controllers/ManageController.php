@@ -20,11 +20,11 @@ class ManageController extends Controller
             'access' => [
                 'class' => AccessControl::className(),
                 // Pages that are included in the rule set
-                'only'  => ['index', 'game', 'check', 'play'],
+                'only'  => ['index', 'game'],
                 'rules' => [
                     [ // Pages that can be accessed when logged in
                         'allow'     => true,
-                        'actions'   => [ 'index', 'game', 'play', 'check'],
+                        'actions'   => [ 'index', 'game'],
                         'roles'     => ['@']
                     ],
                 ],

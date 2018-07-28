@@ -16,10 +16,30 @@ html, body {
 }
 
 #forLogin {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+
+    -webkit-box-direction: column;
+    -moz-box-direction: column;
+    -webkit-box-orient: column;
+    -moz-box-orient: column;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+
+    -webkit-box-pack: center;
+    -moz-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
   background: #222 !important;
+}
+
+#forLogin .btn {
+    margin-bottom: 10px;
 }
 
 .common-wrapper:after {
@@ -40,9 +60,10 @@ html, body {
 
 /** Login Page **/
 #login-wrapper {
-    margin: -50px auto 0;
+/*    margin: -50px auto 0;*/
     min-height: 80px;
     width: 300px;
+    margin: 0 auto;
 }
 
 .common-wrapper #logo {
@@ -130,9 +151,37 @@ nav .container {
 
 /* Game Page */
 #timerContainer {
+/*
     zoom: 0.6;
+    -moz-transform: scale(0.5);
+*/
     margin: 30px auto;
-    width: 50%;
+    width: 100%;
+}
+
+.flip-clock-wrapper .flip {
+    height: 30px;
+    width: 30px;
+}
+
+.flip-clock-wrapper .flip a div {
+/*    height: 49%;*/
+}
+.flip-clock-wrapper .flip .inn {
+    font-size: 24px;
+    line-height: 26px;
+}
+.flip-clock-divider .flip-clock-label {
+    display: none;
+}
+.flip-clock-dot.top {
+    top: 5px !important;
+}
+.flip-clock-dot.bottom {
+    bottom: -3px !important;
+}
+.flip-clock-divider {
+    height: 30px !important;
 }
 
 #globalRankingContainer table.table-bordered > tbody > tr > td {

@@ -14,6 +14,7 @@ class AlertAsset extends AssetBundle
     ];
     public $js = [
         'plugins/sweetalert/sweetalert.min.js',
+        'https://cdn.jsdelivr.net/npm/promise-polyfill@7.1.0/dist/promise.min.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

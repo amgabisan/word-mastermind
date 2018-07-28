@@ -135,6 +135,6 @@ class SessionController extends Controller
         Yii::$app->response->clear();   // Clears the headers, cookies, content, status code of the response.
         Yii::$app->user->logout();
 
-       return $this->redirect('/logout');
+       return $this->redirect('/');
     }
 }
