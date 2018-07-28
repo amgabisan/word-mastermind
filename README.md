@@ -83,6 +83,7 @@ composer install
 ~~~
 
 ## Database
+You can find the database in web/resources/database/db.sql
 ### Create Database
 Go to your database by executing command :
 ~~~
